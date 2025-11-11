@@ -51,15 +51,15 @@ class Item {
         } elseif ($state === 'returned') {
             $where[] = 'state = "returned"';
         } elseif ($state === 'in_claim') {
-            $where[] = 'state = "claim_initiated"';
+            $where[] = 'state = "in_claim"';
         } else {
             $where[] = 'state IN ("open","claim_initiated")';
         }
 
         if ($type === 'lost' || $type === 'found') { $where[] = 'type = :type'; $params[':type'] = $type; }
-        if ($q)           { $where[] = '(title LIKE :q OR description LIKE :q OR location LIKE :q)'; $params[':q'] = '%'.$q.'%'; }
-        if ($campusName)  { $where[] = 'campus = :campus';  $params[':campus'] = $campusName; }
-        if ($locationName){ $where[] = 'location = :loc';   $params[':loc'] = $locationName; }
+        if ($q)           { $where[] = '(LOWER(title) LIKE LOWER(:q) OR LOWER(description) LIKE LOWER(:q) OR LOWER(location) LIKE LOWER(:q))'; $params[':q'] = '%'.$q.'%'; }
+        if ($campusName)  { $where[] = 'campus LIKE :campus';  $params[':campus'] = '%' . $campusName . '%'; }
+        if ($locationName){ $where[] = 'location LIKE :loc';   $params[':loc'] = '%'.$locationName.'%'; }
         if ($dateFrom)    { $where[] = 'DATE(created_at) >= :df'; $params[':df'] = $dateFrom; }
         if ($dateTo)      { $where[] = 'DATE(created_at) <= :dt'; $params[':dt'] = $dateTo; }
 

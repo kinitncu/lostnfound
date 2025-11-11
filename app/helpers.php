@@ -79,10 +79,9 @@ function render(string $view, array $data = []): void {
 }
 
 /* Upload helpers */
-function uploads_path(string $rel = ''): string {
-    $p = UPLOADS_DIR . DIRECTORY_SEPARATOR . ltrim(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $rel), DIRECTORY_SEPARATOR);
-    return $p;
+function uploads_path(string $path = ''): string {
+    return __DIR__ . '/../../assets/uploads/' . ltrim($path, '/');
 }
-function uploads_url(string $rel = ''): string {
-    return base_url('assets/uploads/' . ltrim($rel, '/'));
+function uploads_url(string $path = ''): string {
+    return '/assets/uploads/' . ltrim($path, '/');
 }
